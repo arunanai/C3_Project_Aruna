@@ -3,6 +3,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -85,4 +87,16 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    //Tests for Get price
+    @Test
+    public void getOrderCost_should_return_total_cost_based_on_item_list()
+    {
+         //Act
+        int totalCost = restaurant.getOrderCost(restaurant.getMenu());
+
+        //Assert
+        assertEquals("388", totalCost);
+
+    }
 }
