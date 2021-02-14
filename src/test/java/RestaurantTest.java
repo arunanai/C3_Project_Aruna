@@ -5,9 +5,9 @@ import org.mockito.Mockito;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantTest {
     Restaurant restaurant;
@@ -88,15 +88,66 @@ class RestaurantTest {
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    //Tests for Get price
+    //<<<<<<<<Tests for Get price>>>>>>>>>>>>>>>>>>>>>>>
     @Test
     public void getOrderCost_should_return_total_cost_based_on_item_list()
     {
-         //Act
+        //Arrange
+        restaurant.addToMenu("Dessert", 12);
+        restaurant.selectItem("Sweet corn soup");
+        restaurant.selectItem("Vegetable lasagne");
+        restaurant.selectItem("Dessert");
+
+        //Act
         int totalCost = restaurant.getOrderCost(restaurant.getMenu());
 
         //Assert
-        assertEquals("388", totalCost);
+        assertEquals(400, totalCost);
 
     }
+
+    @Test
+    public void getOrderCost_should_return_total_cost_zero_when_no_items_are_selected()
+    {
+        //Act
+        int totalCost = restaurant.getOrderCost(restaurant.getMenu());
+
+        //Assert
+        assertEquals(0, totalCost);
+
+    }
+    //<<<<<<<<<End>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    //<<<<<<<<<<<Tests for Item Selection>>>>>>>>>>>>>>>>>>>>
+    @Test
+    public void selectItem_should_update_item_isSelected_property_to_true_on_menu()
+    {
+        //Act
+        restaurant.selectItem("Sweet corn soup");
+
+        //Assert
+
+        assertTrue(restaurant.getMenu().stream()
+                .filter(x -> x.getSelected() == true)
+                .collect(Collectors.toList()).size() == 1);
+
+    }
+
+    @Test
+    public void selectItem_should_not_update_item_isSelected_property_for_invalid_item_name()
+    {
+        //Act
+        restaurant.selectItem("Dessert");
+
+        //Assert
+
+        assertFalse(restaurant.getMenu().stream()
+                .filter(x -> x.getSelected() == true)
+                .collect(Collectors.toList()).size() > 0);
+
+    }
+
+    //<<<<<<<<<<<<<<<<End Tests>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 }
