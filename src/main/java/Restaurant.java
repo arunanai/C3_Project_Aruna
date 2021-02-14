@@ -18,15 +18,24 @@ public class Restaurant {
     }
 
     public boolean isRestaurantOpen() {
-        return true;
-        //DELETE ABOVE STATEMENT AND WRITE CODE HERE
+        //comparing Current time with restaurant closing time
+        LocalTime currentTime = this.getCurrentTime();
+        int currentHour = currentTime.getHour();
+        int closingHour = this.closingTime.getHour();
+        int openingHour = this.openingTime.getHour();
+
+        //if current time is greater than or equal to closing time, return isRestaurantOpen as false
+        if((currentHour - closingHour) < 0 && (currentHour > openingHour))
+        {
+            return true;
+        }
+        return false;
     }
 
     public LocalTime getCurrentTime(){ return  LocalTime.now(); }
 
     public List<Item> getMenu() {
-        return null;
-        //DELETE ABOVE RETURN STATEMENT AND WRITE CODE HERE
+        return this.menu;
     }
 
     private Item findItemByName(String itemName){
